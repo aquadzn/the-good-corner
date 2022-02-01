@@ -1,13 +1,15 @@
 from model import Model
 from flask import Flask
+from flask_cors import cross_origin
 from flask_restx import Api, Resource, fields
+
 
 app = Flask(__name__)
 api = Api(app)
 model = Model()
 
 
-ns = api.namespace("images", description="The Good Corner images")
+ns = api.namespace("images", description="The Good Corner images", decorators=[cross_origin()])
 
 
 @ns.route("/")

@@ -1,5 +1,6 @@
 requests
 flask
 flask-restx
+flask-cors
 pandas
 gunicorn
