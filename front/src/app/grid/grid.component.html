@@ -1,0 +1,5 @@
+<div class="grid grid-cols-5 grid-rows-2">
+    <div *ngFor="let img of imgs">
+        <app-image [id]="img.id" [url]="'assets/' + img.filename"></app-image>
+    </div>
+</div>
