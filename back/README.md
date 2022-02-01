@@ -8,7 +8,7 @@
 
 - Téléchargement de la base de données
 
-[](https://www.kaggle.com/adityajn105/flickr8k/)
+(https://www.kaggle.com/adityajn105/flickr8k/)
 
 - Création de la base de données
 
