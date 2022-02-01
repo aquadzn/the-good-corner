@@ -8,7 +8,7 @@
 
 - Téléchargement de la base de données
 
-(https://www.kaggle.com/adityajn105/flickr8k/)
+https://www.kaggle.com/adityajn105/flickr8k/
 
 - Création de la base de données
 
@@ -16,4 +16,10 @@
 
 ## Lancement
 
+- Développement
+
 `python main.py`
+
+- Production
+
+`gunicorn --bind 0.0.0.0:5000 main:app`
