@@ -8,3 +8,6 @@
 */.idea
 .vscode
 */.vscode
+
+back/.ipynb_checkpoints
+back/*.ipynb
