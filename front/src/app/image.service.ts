@@ -6,27 +6,34 @@ import { Image } from './models/image.model';
   providedIn: 'root',
 })
 export class ImageService {
-  constructor(private http: HttpClient) {}
+  private images: Image[];
+
+  constructor(private http: HttpClient) {
+    this.images = [];
+    this.images.push(new Image('994a10fc139c', 'https://images.unsplash.com/photo-1643892632961-994a10fc139c'));
+    this.images.push(new Image('70a427607bf9', 'https://images.unsplash.com/photo-1643779374659-70a427607bf9'));
+    this.images.push(new Image('792a826644c6', 'https://images.unsplash.com/photo-1643979870390-792a826644c6'));
+    this.images.push(new Image('c17a5ddf14f4', 'https://images.unsplash.com/photo-1643967377110-c17a5ddf14f4'));
+    this.images.push(new Image('fdea11728d5b', 'https://images.unsplash.com/photo-1643979556679-fdea11728d5b'));
+    this.images.push(new Image('144f35a8b620', 'https://images.unsplash.com/photo-1643985775659-144f35a8b620'));
+  }
 
   public getHomepageImages(): Image[] {
-    let images: Image[] = [];
-
     // this.http.get<any>('http://localhost:5000/random/9').subscribe((data) => {
     //   for (let element of data) {
     //     images.push(new Image(element.id, element.url));
     //   }
     // });
 
-    images.push(new Image('1', 'https://picsum.photos/1280/720'));
-    images.push(new Image('2', 'https://picsum.photos/500/1000'));
-    images.push(new Image('3', 'https://picsum.photos/400'));
-    images.push(new Image('4', 'https://picsum.photos/700/200'));
-    images.push(new Image('5', 'https://picsum.photos/600'));
-    images.push(new Image('6', 'https://picsum.photos/1000/500'));
-    images.push(new Image('7', 'https://picsum.photos/300'));
-    images.push(new Image('8', 'https://picsum.photos/1280/720'));
-    images.push(new Image('9', 'https://picsum.photos/200/700'));
+    return this.images;
+  }
 
-    return images;
+  public getImageById(id: string): Image {
+    const img = this.images.find((img) => img.id === id);
+    if (!img) {
+      throw new Error('Image not found');
+    } else {
+      return img;
+    }
   }
 }
