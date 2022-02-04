@@ -11,6 +11,7 @@ import { ImageGridComponent } from './image-grid/image-grid.component';
 import { ImageComponent } from './image/image.component';
 import { ImagesPageComponent } from './images-page/images-page.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,9 +27,10 @@ import { ImageModalComponent } from './image-modal/image-modal.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
