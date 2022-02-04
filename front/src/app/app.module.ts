@@ -4,14 +4,16 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ImageComponent } from './image/image.component';
-import { GridComponent } from './grid/grid.component';
+import { HomepageComponent } from './homepage/homepage.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ImageComponent,
-    GridComponent
+    HomepageComponent,
+    NavbarComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
