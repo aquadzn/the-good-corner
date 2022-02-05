@@ -23,5 +23,17 @@ export class ImageModalComponent implements OnInit {
 
   shareImage() {
     console.log(window.location.href);
+    if (!navigator.clipboard) {
+      // use old commandExec() way
+    } else {
+      navigator.clipboard
+        .writeText(window.location.href)
+        .then(function () {
+          alert('URL copiée');
+        })
+        .catch(function () {
+          alert('Erreur clipboard'); // error
+        });
+    }
   }
 }
