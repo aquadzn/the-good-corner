@@ -20,4 +20,8 @@ export class ImageModalComponent implements OnInit {
     let id = this.route.snapshot.params['id'];
     this.image = this.imageService.getImageById(id);
   }
+
+  shareImage() {
+    console.log(window.location.href);
+  }
 }
