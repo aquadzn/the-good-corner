@@ -4,6 +4,7 @@ import { ApiPageComponent } from './api-page/api-page.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ImagesPageComponent } from './images-page/images-page.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -11,6 +12,8 @@ const routes: Routes = [
   { path: 'images', component: ImagesPageComponent },
   { path: 'images/:id', component: ImageModalComponent },
   { path: 'api', component: ApiPageComponent },
+  { path: 'search/:keyword', component: SearchResultsComponent },
+  { path: 'search/:keyword/:color', component: SearchResultsComponent },
 ];
 
 @NgModule({

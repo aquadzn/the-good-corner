@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,17 +9,19 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class NavbarComponent implements OnInit {
   formNav = new FormGroup({
-    search: new FormControl('', [Validators.required, Validators.minLength(1)]),
+    search: new FormControl('', [
+      Validators.required,
+      Validators.minLength(1),
+      Validators.pattern('^[a-zA-Z ]*$'),
+    ]),
   });
 
-  constructor() {}
-
-  get f() {
-    return this.formNav.controls;
-  }
+  constructor(private router: Router) {}
 
   submit() {
-    console.log(this.formNav.value);
+    this.router.navigateByUrl(
+      `/search/${this.formNav.controls['search'].value}`
+    );
   }
 
   ngOnInit(): void {}

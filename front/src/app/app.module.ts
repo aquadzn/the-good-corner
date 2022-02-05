@@ -13,6 +13,7 @@ import { ImagesPageComponent } from './images-page/images-page.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiPageComponent } from './api-page/api-page.component';
+import { SearchResultsComponent } from './search-results/search-results.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ApiPageComponent } from './api-page/api-page.component';
     ImagesPageComponent,
     ImageModalComponent,
     ApiPageComponent,
+    SearchResultsComponent,
   ],
   imports: [
     BrowserModule,
