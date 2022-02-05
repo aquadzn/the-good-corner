@@ -12,6 +12,7 @@ import { ImageComponent } from './image/image.component';
 import { ImagesPageComponent } from './images-page/images-page.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ApiPageComponent } from './api-page/api-page.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     ImageComponent,
     ImagesPageComponent,
     ImageModalComponent,
+    ApiPageComponent,
   ],
   imports: [
     BrowserModule,
