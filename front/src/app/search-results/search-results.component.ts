@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ImageService } from '../image.service';
+import { Image } from '../models/image.model';
 
 @Component({
   selector: 'app-search-results',
@@ -9,8 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 export class SearchResultsComponent implements OnInit {
   colors: any = {};
   keyword!: string | null;
+  images!: Image[];
 
-  constructor(private route: ActivatedRoute) {
+  constructor(
+    private route: ActivatedRoute,
+    private imageService: ImageService
+  ) {
     this.colors['Blanc'] = 'white';
     this.colors['Bleu'] = 'blue';
     this.colors['Fuchsia'] = 'fuchsia';
@@ -27,6 +33,7 @@ export class SearchResultsComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.keyword = params.get('keyword');
+      this.images = this.imageService.getImagesByKeyword(this.keyword);
     });
   }
 }

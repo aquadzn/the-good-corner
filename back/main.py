@@ -5,7 +5,7 @@ from flask_restx import Api, Resource, fields
 from werkzeug.exceptions import BadRequest
 
 
-app = Flask(__name__, static_folder="images")
+app = Flask(__name__)
 api = Api(app)
 model = Model()
 
@@ -24,12 +24,21 @@ class Homepage(Resource):
         raise BadRequest()
 
 
+@ns.route("/id/<string:photo_id>")
+class GetImageById(Resource):
+    def get(self, photo_id):
+        res = model.get_image_by_id(photo_id)
+        if res:
+            return dict(res)
+        raise BadRequest("The image wasn't found.")
+
+
 @ns.route("/random")
 class Random(Resource):
     def get(self):
         res = model.get_random_image()
         if res:
-            return res
+            return dict(res)
         raise BadRequest()
 
 
@@ -38,6 +47,7 @@ class RandomSize(Resource):
     def get(self, size):
         res = model.get_random_image()
         if res:
+            res = dict(res)
             res.update({"size": size})
             return res
         raise BadRequest()
@@ -48,6 +58,7 @@ class RandomWidthHeight(Resource):
     def get(self, width, height):
         res = model.get_random_image()
         if res:
+            res = dict(res)
             res.update({"width": width, "height": height})
             return res
         raise BadRequest()

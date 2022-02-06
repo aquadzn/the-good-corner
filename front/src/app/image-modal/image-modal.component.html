@@ -1,16 +1,42 @@
 <app-navbar></app-navbar>
-<div class="bg-gray-50 h-screen flex flex-col px-8 justify-evenly items-center pt-16 space-y-8 md:flex-row">
+<div *ngIf="image"
+    class="bg-gray-50 h-screen flex flex-col px-8 justify-evenly items-center md:pt-16 space-y-8 md:space-x-16 md:flex-row md:items-start">
     <div class="self-center md:self-auto">
-        <img id="img" class="w-96" src="{{ image.url }}" alt="{{ image.id }}">
+        <img id="img" class="w-64 md:w-96" src="{{ image.photo_image_url }}?q=60"
+            alt="{{ image.photo_id }}">
     </div>
-    <div class="text-center space-y-8">
-        <div>
-            <h1 class="text-6xl">John Doe</h1>
-            <p>ertrktjtrjerjj</p>
+    <div class="flex-1 text-center md:text-right space-y-8">
+        <div class="space-y-2">
+            <h1 class="text-6xl">{{ image.photographer_name }}</h1>
+            <p class="text-lg text-gray-600">{{ image.photo_description }}</p>
+            <div class="flex flex-wrap justify-center items-center gap-2 text-xs md:justify-end">
+                <a *ngFor="let k of splitKeywords()" routerLink="/search/{{ k }}"
+                    class="border border-blue-300 px-2 py-0.5 bg-blue-200 rounded text-blue-800">
+                    {{ k }}
+                </a>
+            </div>
         </div>
-        <div class="flex justify-center space-x-4">
-            <a href="{{ image.url }}" target="blank" class="px-4 py-2 rounded shadow-sm text-sm font-semibold border border-green-600 bg-green-500 text-gray-100 transition transform ease-in hover:text-white hover:border-green-900 hover:bg-green-600"><i class="fas fa-download"></i> Télécharger</a>
-            <button (click)="shareImage()" class="px-4 py-2 rounded shadow-sm text-sm font-semibold border border-gray-300 bg-gray-200 text-gray-500 transition transform ease-in hover:border-gray-800 hover:text-gray-800"><i class="fas fa-share"></i> Partager</button>
+        <div class="flex flex-wrap justify-center items-center gap-2 text-sm md:justify-end">
+            <p class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i class="fas fa-camera"></i>
+                {{ image.exif_camera_model }}</p>
+            <p class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i
+                    class="fas fa-arrows-alt-h"></i> {{
+                image.photo_width }} px</p>
+            <p class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i
+                    class="fas fa-arrows-alt-v"></i> {{
+                image.photo_height }} px</p>
+            <p class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i
+                    class="fas fa-percentage"></i> {{
+                image.photo_aspect_ratio }}</p>
+        </div>
+
+        <div class="flex justify-center space-x-4 md:justify-end">
+            <a href="{{ image.photo_image_url }}?dl={{ image.filename }}"
+                class="px-4 py-2 rounded shadow-sm text-sm font-semibold border border-green-600 bg-green-500 text-gray-100 transition transform ease-in hover:text-white hover:border-green-900 hover:bg-green-600"><i
+                    class="fas fa-download"></i> Télécharger</a>
+            <button (click)="shareImage()"
+                class="px-4 py-2 rounded shadow-sm text-sm font-semibold border border-gray-300 bg-gray-200 text-gray-500 transition transform ease-in hover:border-gray-800 hover:text-gray-800"><i
+                    class="fas fa-share"></i> Partager</button>
         </div>
     </div>
 </div>

@@ -1,5 +1,7 @@
 <div class="group relative transform transition duration-300 hover:brightness-75">
-    <a routerLink="/images/{{ image.id }}">
-        <img class="py-2 w-full aspect-auto" src="{{ image.url }}" alt="{{ image.id }}">
+    <a routerLink="/images/{{ image.photo_id }}">
+        <!-- Beaucoup moins de MB pour le client -->
+        <img class="py-2 w-full aspect-auto" src="{{ image.photo_image_url }}?q=0" alt="{{ image.photo_id }}">
+        <!-- <img class="py-2 w-full aspect-auto" src="http://localhost:5000/static/{{ image.filename }}" alt="{{ image.photo_id }}"> -->
     </a>
 </div>

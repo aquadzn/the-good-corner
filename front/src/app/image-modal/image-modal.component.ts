@@ -9,7 +9,7 @@ import { Image } from '../models/image.model';
   styleUrls: ['./image-modal.component.css'],
 })
 export class ImageModalComponent implements OnInit {
-  image!: Image;
+  image!: Image | null;
 
   constructor(
     private imageService: ImageService,
@@ -35,5 +35,9 @@ export class ImageModalComponent implements OnInit {
           alert('Erreur clipboard'); // error
         });
     }
+  }
+
+  splitKeywords() {
+    return this.image?.keyword.split(' ');
   }
 }

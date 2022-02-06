@@ -22,6 +22,18 @@ class Model:
 
         return accumulator
 
+    def get_image_by_id(self, photo_id: str):
+        conn = self.__get_db(True)
+        cur = conn.cursor()
+        cur.execute(
+            "select * from images where photo_id = ?", (photo_id,)
+        )
+        res = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        return res
+
     def get_random_image(self):
         conn = self.__get_db(True)
         cur = conn.cursor()
@@ -30,7 +42,7 @@ class Model:
         cur.close()
         conn.close()
 
-        return dict(res)
+        return res
 
     def search_by_keyword(self, keyword: str):
         conn = self.__get_db(True)
