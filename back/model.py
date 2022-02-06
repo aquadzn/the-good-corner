@@ -3,7 +3,7 @@ import sqlite3
 
 class Model:
     def __get_db(self, row_factory: bool = False):
-        conn = sqlite3.connect("subset.db")
+        conn = sqlite3.connect("sql.db")
         if row_factory:
             conn.row_factory = sqlite3.Row
         return conn
