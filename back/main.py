@@ -5,7 +5,7 @@ from flask_restx import Api, Resource, fields
 from werkzeug.exceptions import BadRequest
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="images")
 api = Api(app)
 model = Model()
 
@@ -15,10 +15,13 @@ ns = api.namespace(
 )
 
 
-@ns.route("/")
-class Root(Resource):
+@ns.route("/homepage")
+class Homepage(Resource):
     def get(self):
-        return {"response": "Hello world!"}
+        res = model.get_homepage_images()
+        if res:
+            return res
+        raise BadRequest()
 
 
 @ns.route("/random")
@@ -26,7 +29,7 @@ class Random(Resource):
     def get(self):
         res = model.get_random_image()
         if res:
-            return {"id": res[0], "image": res[1]}
+            return res
         raise BadRequest()
 
 
@@ -35,7 +38,8 @@ class RandomSize(Resource):
     def get(self, size):
         res = model.get_random_image()
         if res:
-            return {"id": res[0], "image": res[1], "size": size}
+            res.update({"size": size})
+            return res
         raise BadRequest()
 
 
@@ -44,20 +48,16 @@ class RandomWidthHeight(Resource):
     def get(self, width, height):
         res = model.get_random_image()
         if res:
-            return {
-                "id": res[0],
-                "image": res[1],
-                "width": width,
-                "height": height,
-            }
+            res.update({"width": width, "height": height})
+            return res
         raise BadRequest()
 
 
-@ns.route("/find/<string:keyword>")
+@ns.route("/search/<string:keyword>")
 @ns.param("keyword", "The search query keyword")
-class FindByKeyword(Resource):
+class SearchByKeyword(Resource):
     def get(self, keyword):
-        res = model.find_images_by_keyword(keyword)
+        res = model.search_by_keyword(keyword)
         if res:
             return res
         raise BadRequest()
