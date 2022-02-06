@@ -12,7 +12,7 @@ export class ImageService {
     var images: Image[] = [];
 
     this.http
-      .get<any>('http://localhost:5000/images/homepage')
+      .get<any>('https://the-good-corner-backend.herokuapp.com/images/homepage')
       .subscribe((data) => {
         for (let element of data) {
           images.push(
@@ -40,7 +40,7 @@ export class ImageService {
     var img: Image = new Image('', '', '', '', '', NaN, NaN, NaN, '', '', '');
 
     this.http
-      .get<any>(`http://localhost:5000/images/id/${id}`)
+      .get<any>(`https://the-good-corner-backend.herokuapp.com/images/id/${id}`)
       .subscribe((data) => {
         img.photo_id = data.photo_id;
         img.photographer_name = data.photographer_name;
@@ -63,7 +63,7 @@ export class ImageService {
     var images: Image[] = [];
 
     this.http
-      .get<any>(`http://localhost:5000/images/search/${keyword}`)
+      .get<any>(`https://the-good-corner-backend.herokuapp.com/images/search/${keyword}`)
       .subscribe((data) => {
         for (let element of data) {
           images.push(
