@@ -22,12 +22,30 @@ class Model:
 
         return accumulator
 
-    def get_image_by_id(self, photo_id: str):
+    def get_gallery_images(self, offset: int, limit: int):
         conn = self.__get_db(True)
         cur = conn.cursor()
         cur.execute(
-            "select * from images where photo_id = ?", (photo_id,)
+            "select * from images limit ? offset ?",
+            (
+                limit,
+                offset,
+            ),
         )
+        res = cur.fetchall()
+        accumulator = []
+        for item in res:
+            accumulator.append({k: item[k] for k in item.keys()})
+
+        cur.close()
+        conn.close()
+
+        return accumulator
+
+    def get_image_by_id(self, photo_id: str):
+        conn = self.__get_db(True)
+        cur = conn.cursor()
+        cur.execute("select * from images where photo_id = ?", (photo_id,))
         res = cur.fetchone()
         cur.close()
         conn.close()
@@ -44,13 +62,30 @@ class Model:
 
         return res
 
-    def search_by_keyword(self, keyword: str):
+    def search_by_keyword(
+        self, keyword: str, offset: int, limit: int, color: str = None
+    ):
         conn = self.__get_db(True)
         cur = conn.cursor()
-        cur.execute(
-            "select rank, * from images where images match ? order by rank limit 6",
-            (keyword,),
-        )
+        if color:
+            cur.execute(
+                "select rank, * from images where images match ? and colors match ? order by rank limit ? offset ?",
+                (
+                    keyword,
+                    color,
+                    limit,
+                    offset,
+                ),
+            )
+        else:
+            cur.execute(
+                "select rank, * from images where images match ? order by rank limit ? offset ?",
+                (
+                    keyword,
+                    limit,
+                    offset,
+                ),
+            )
         res = cur.fetchall()
         accumulator = []
         for item in res:

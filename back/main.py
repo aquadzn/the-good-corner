@@ -1,7 +1,7 @@
 from model import Model
 from flask import Flask, request
 from flask_cors import cross_origin
-from flask_restx import Api, Resource, fields
+from flask_restx import Api, Resource, reqparse
 from werkzeug.exceptions import BadRequest
 
 
@@ -14,11 +14,28 @@ ns = api.namespace(
     "images", description="The Good Corner images", decorators=[cross_origin()]
 )
 
+parser = reqparse.RequestParser()
+parser.add_argument("offset", default=0, type=int)
+parser.add_argument("limit", default=6, type=int)
+search_parser = parser.copy()
+search_parser.add_argument("color", type=str)
+
 
 @ns.route("/homepage")
 class Homepage(Resource):
     def get(self):
         res = model.get_homepage_images()
+        if res:
+            return res
+        raise BadRequest()
+
+
+@ns.route("/gallery")
+class Gallery(Resource):
+    @ns.expect(parser)
+    def get(self):
+        args = parser.parse_args()
+        res = model.get_gallery_images(**args)
         if res:
             return res
         raise BadRequest()
@@ -67,8 +84,10 @@ class RandomWidthHeight(Resource):
 @ns.route("/search/<string:keyword>")
 @ns.param("keyword", "The search query keyword")
 class SearchByKeyword(Resource):
+    @ns.expect(search_parser)
     def get(self, keyword):
-        res = model.search_by_keyword(keyword)
+        args = parser.parse_args()
+        res = model.search_by_keyword(keyword, **args)
         if res:
             return res
         raise BadRequest()
