@@ -32,12 +32,16 @@ parser.add_argument("limit", default=6, type=int)
 search_parser = parser.copy()
 search_parser.add_argument("color", type=str)
 upload_parser = ns.parser()
-upload_parser.add_argument("file", location="files", type=FileStorage, required=True)
-upload_parser.add_argument("photographer_name", type=str, required=True)
-upload_parser.add_argument("photo_description", type=str, required=True)
-upload_parser.add_argument("keyword", type=str)
-upload_parser.add_argument("exif_camera_model", type=str)
-upload_parser.add_argument("colors", type=str)
+upload_parser.add_argument("file", type=str, required=True, location="json")
+upload_parser.add_argument(
+    "photographer_name", type=str, required=True, location="json"
+)
+upload_parser.add_argument(
+    "photo_description", type=str, required=True, location="json"
+)
+upload_parser.add_argument("keyword", type=str, location="json")
+upload_parser.add_argument("exif_camera_model", type=str, location="json")
+upload_parser.add_argument("colors", type=str, location="json")
 
 
 @ns.route("/homepage")
@@ -117,12 +121,13 @@ class SearchByKeyword(Resource):
 class UploadImage(Resource):
     def post(self):
         args = upload_parser.parse_args()
-        # file_to_upload = args["file"]
-        file_to_upload = request.files["file"]
+        # args = request.get_json()
+
+        # file_to_upload = request.files["file"]
         photo_id = uuid4().hex
 
         res = model.upload_image(
-            file_to_upload,
+            args["file"],
             photo_id,
             args["photographer_name"],
             args["exif_camera_model"],
