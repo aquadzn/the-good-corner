@@ -40,7 +40,9 @@ export class ImageService {
     var images: Image[] = [];
 
     this.http
-      .get<any>(`http://localhost:5000/images/gallery?offset=${offset}&limit=${limit}`)
+      .get<any>(
+        `http://localhost:5000/images/gallery?offset=${offset}&limit=${limit}`
+      )
       .subscribe((data) => {
         for (let element of data) {
           images.push(
@@ -113,5 +115,16 @@ export class ImageService {
       });
 
     return images;
+  }
+
+  public uploadImage(formData: FormData) {
+    var payload = Object();
+    formData.forEach((value: any, key: any) => {
+      payload[key] = value;
+    });
+
+    return this.http.post<any>('http://localhost:5000/images/upload', payload, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

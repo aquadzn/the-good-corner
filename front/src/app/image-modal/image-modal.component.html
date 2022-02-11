@@ -9,7 +9,7 @@
         <div class="space-y-2">
             <h1 class="text-6xl">{{ image.photographer_name }}</h1>
             <p class="text-lg text-gray-600">{{ image.photo_description }}</p>
-            <div class="flex flex-wrap justify-center items-center gap-2 text-xs md:justify-end">
+            <div *ngIf="image.keyword" class="flex flex-wrap justify-center items-center gap-2 text-xs md:justify-end">
                 <a *ngFor="let k of splitKeywords()" routerLink="/search/{{ k }}"
                     class="border border-blue-300 px-2 py-0.5 bg-blue-200 rounded text-blue-800">
                     {{ k }}
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div class="flex flex-wrap justify-center items-center gap-2 text-sm md:justify-end">
-            <p class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i class="fas fa-camera"></i>
+            <p *ngIf="image.exif_camera_model" class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i class="fas fa-camera"></i>
                 {{ image.exif_camera_model }}</p>
             <p class="border border-gray-300 px-3 py-1 bg-gray-200 rounded text-gray-500"><i
                     class="fas fa-arrows-alt-h"></i> {{

@@ -1,0 +1,110 @@
+<app-navbar></app-navbar>
+<div id="bg" class="mt-8 flex flex-col space-y-8 justify-center items-center">
+    <div class="flex-initial">
+        <form [formGroup]="formUpload" (ngSubmit)="submit()">
+            <div class="border-2 shadow-lg sm:rounded-md sm:overflow-hidden">
+                <h1 class="px-4 py-5 text-2xl font-bold">Uploader une image</h1>
+                <div class="flex space-x-8 items-baseline px-6 py-2 bg-white">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="photographer_name"
+                                class="block text-sm font-medium text-gray-700">Auteur</label>
+                            <div class="mt-1">
+                                <input
+                                    class="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    type="text" formControlName="photographer_name" name="photographer_name"
+                                    placeholder="John Doe">
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">
+                                Le prénom et le nom de l'auteur de l'image
+                            </p>
+                            <div *ngIf="f['photographer_name'].invalid && (f['photographer_name'].dirty || f['photographer_name'].touched)"
+                                class="text-sm text-red-500">
+                                <p>Requis</p>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="photo_description"
+                                class="block text-sm font-medium text-gray-700">Description</label>
+                            <div class="mt-1">
+                                <textarea formControlName="photo_description" name="photo_description" rows="3"
+                                    class="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    placeholder="Lorem ipsum blablabla..."></textarea>
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">
+                                Une courte description du contenu de l'image
+                            </p>
+                            <div *ngIf="f['photo_description'].invalid && (f['photo_description'].dirty || f['photo_description'].touched)"
+                                class="text-sm text-red-500">
+                                <p>Requis</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col space-y-4">
+                        <div>
+                            <label for="keyword" class="block text-sm font-medium text-gray-700">Tags
+                                (optionnel)</label>
+                            <div class="mt-1">
+                                <input
+                                    class="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    type="text" formControlName="keyword" name="keyword"
+                                    placeholder="nature wallpaper ocean">
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">
+                                Liste de tags représentant l'image
+                            </p>
+                        </div>
+                        <div>
+                            <label for="exif_camera_model" class="block text-sm font-medium text-gray-700">Appareil
+                                photo (optionnel)</label>
+                            <div class="mt-1">
+                                <input
+                                    class="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    type="text" formControlName="exif_camera_model" name="exif_camera_model"
+                                    placeholder="Sony A7X">
+                            </div>
+                            <p class="mt-2 text-sm text-gray-500">
+                                Le modèle de l'appareil photo utilisé
+                            </p>
+                        </div>
+                        <div>
+                            <label for="colors" class="block text-sm font-medium text-gray-700">Couleur
+                                (optionnel)</label>
+                            <div class="mt-1">
+                                <input
+                                    class="p-2 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+                                    type="text" formControlName="colors" name="colors" placeholder="blue">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-2">
+                    <label class="block text-sm font-medium text-gray-700">Image</label>
+                    <div
+                        class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                        <div class="space-y-1 text-center">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
+                                viewBox="0 0 48 48" aria-hidden="true">
+                                <path
+                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="file"
+                                    class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500">
+                                    <input type="file" name="file" (change)="onFileChange($event)">
+                                </label>
+                            </div>
+                            <p class="text-xs text-gray-500">PNG et JPG. Maximum: 10Mo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-center sm:px-6">
+                    <button type="submit" [disabled]="formUpload.invalid"
+                        class="inline-flex w-full justify-center p-2 my-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">UPLOAD</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

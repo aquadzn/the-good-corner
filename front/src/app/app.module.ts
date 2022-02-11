@@ -14,6 +14,7 @@ import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiPageComponent } from './api-page/api-page.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
+import { UploadPageComponent } from './upload-page/upload-page.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { SearchResultsComponent } from './search-results/search-results.componen
     ImageModalComponent,
     ApiPageComponent,
     SearchResultsComponent,
+    UploadPageComponent,
   ],
   imports: [
     BrowserModule,
