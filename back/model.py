@@ -1,9 +1,13 @@
 import sqlite3
+import cloudinary.uploader
 
 
 class Model:
+    def __init__(self, db_name: str) -> None:
+        self.db_name = db_name
+
     def __get_db(self, row_factory: bool = False):
-        conn = sqlite3.connect("sql.db")
+        conn = sqlite3.connect(self.db_name)
         if row_factory:
             conn.row_factory = sqlite3.Row
         return conn
@@ -95,3 +99,43 @@ class Model:
         conn.close()
 
         return accumulator
+
+    def upload_image(
+        self,
+        file,
+        photo_id,
+        photographer_name,
+        exif_camera_model,
+        photo_description,
+        keyword,
+        colors,
+    ):
+        res = cloudinary.uploader.upload(
+            file,
+            public_id=photo_id,
+        )
+        if res:
+            conn = self.__get_db()
+            cur = conn.cursor()
+            cur.execute(
+                "insert into images values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (
+                    photo_id,
+                    photographer_name,
+                    f"{photo_id}.{res['format']}",
+                    res["url"],
+                    exif_camera_model,
+                    res["width"],
+                    res["height"],
+                    round(res["width"] / res["height"], 1),
+                    photo_description,
+                    keyword,
+                    colors,
+                ),
+            )
+
+            conn.commit()
+            cur.close()
+            conn.close()
+
+        return res

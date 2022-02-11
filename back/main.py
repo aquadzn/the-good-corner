@@ -1,24 +1,43 @@
-from model import Model
+from uuid import uuid4
+
 from flask import Flask, request
 from flask_cors import cross_origin
-from flask_restx import Api, Resource, reqparse
+from flask_restx import Api, Resource
 from werkzeug.exceptions import BadRequest
+from werkzeug.datastructures import FileStorage
+import cloudinary
 
+import config
+from model import Model
+
+
+cloudinary.config(
+    cloud_name=config.CLOUDINARY_CLOUD_NAME,
+    api_key=config.CLOUDINARY_API_KEY,
+    api_secret=config.CLOUDINARY_API_SECRET,
+)
 
 app = Flask(__name__)
 api = Api(app)
-model = Model()
+model = Model(config.DB_NAME)
 
 
 ns = api.namespace(
     "images", description="The Good Corner images", decorators=[cross_origin()]
 )
 
-parser = reqparse.RequestParser()
+parser = ns.parser()
 parser.add_argument("offset", default=0, type=int)
 parser.add_argument("limit", default=6, type=int)
 search_parser = parser.copy()
 search_parser.add_argument("color", type=str)
+upload_parser = ns.parser()
+upload_parser.add_argument("file", location="files", type=FileStorage, required=True)
+upload_parser.add_argument("photographer_name", type=str, required=True)
+upload_parser.add_argument("photo_description", type=str, required=True)
+upload_parser.add_argument("keyword", type=str)
+upload_parser.add_argument("exif_camera_model", type=str)
+upload_parser.add_argument("colors", type=str)
 
 
 @ns.route("/homepage")
@@ -31,8 +50,8 @@ class Homepage(Resource):
 
 
 @ns.route("/gallery")
+@ns.expect(parser)
 class Gallery(Resource):
-    @ns.expect(parser)
     def get(self):
         args = parser.parse_args()
         res = model.get_gallery_images(**args)
@@ -83,11 +102,34 @@ class RandomWidthHeight(Resource):
 
 @ns.route("/search/<string:keyword>")
 @ns.param("keyword", "The search query keyword")
+@ns.expect(search_parser)
 class SearchByKeyword(Resource):
-    @ns.expect(search_parser)
     def get(self, keyword):
         args = parser.parse_args()
         res = model.search_by_keyword(keyword, **args)
+        if res:
+            return res
+        raise BadRequest()
+
+
+@ns.route("/upload")
+@ns.expect(upload_parser)
+class UploadImage(Resource):
+    def post(self):
+        args = upload_parser.parse_args()
+        # file_to_upload = args["file"]
+        file_to_upload = request.files["file"]
+        photo_id = uuid4().hex
+
+        res = model.upload_image(
+            file_to_upload,
+            photo_id,
+            args["photographer_name"],
+            args["exif_camera_model"],
+            args["photo_description"],
+            args["keyword"],
+            args["colors"],
+        )
         if res:
             return res
         raise BadRequest()
