@@ -11,6 +11,7 @@ import { Image } from '../models/image.model';
 export class SearchResultsComponent implements OnInit {
   colors: any = {};
   keyword!: string | null;
+  color!: string | null;
   images!: Image[];
 
   constructor(
@@ -33,7 +34,11 @@ export class SearchResultsComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.keyword = params.get('keyword');
-      this.images = this.imageService.getImagesByKeyword(this.keyword);
+      this.color = params.get('color') ?? '';
+      this.images = this.imageService.getImagesByKeyword(
+        this.keyword,
+        this.color
+      );
     });
   }
 }

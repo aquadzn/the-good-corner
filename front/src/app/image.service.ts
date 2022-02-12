@@ -89,11 +89,11 @@ export class ImageService {
     return img;
   }
 
-  public getImagesByKeyword(keyword: string | null): Image[] {
+  public getImagesByKeyword(keyword: string | null, color: string): Image[] {
     var images: Image[] = [];
 
     this.http
-      .get<any>(`http://localhost:5000/images/search/${keyword}`)
+      .get<any>(`http://localhost:5000/images/search/${keyword}?color=${color}`)
       .subscribe((data) => {
         for (let element of data) {
           images.push(

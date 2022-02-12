@@ -3,7 +3,7 @@
     <h1 class="text-4xl font-bold">{{ keyword }}</h1>
     <div *ngIf="images.length > 0; else noResults">
         <div class="py-4 flex justify-start items-center space-x-8 overflow-x-scroll overflow-y-hidden scroll-smooth">
-            <a *ngFor="let color of colors | keyvalue"
+            <a *ngFor="let color of colors | keyvalue" routerLink="/search/{{ keyword }}/{{ color.value }}" routerLinkActive="border-gray-900 text-gray-900"
                 class="px-8 py-2 border rounded text-gray-600 transition transform ease-in hover:border-gray-900 hover:text-gray-900">{{
                 color.key }}</a>
         </div>

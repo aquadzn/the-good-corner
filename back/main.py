@@ -109,7 +109,7 @@ class RandomWidthHeight(Resource):
 @ns.expect(search_parser)
 class SearchByKeyword(Resource):
     def get(self, keyword):
-        args = parser.parse_args()
+        args = search_parser.parse_args()
         res = model.search_by_keyword(keyword, **args)
         if res:
             return res
