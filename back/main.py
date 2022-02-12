@@ -87,9 +87,7 @@ class RandomSize(Resource):
     def get(self, size):
         res = model.get_random_image()
         if res:
-            res = dict(res)
-            res.update({"size": size})
-            return res
+            return dict(res)
         raise BadRequest()
 
 
@@ -98,9 +96,7 @@ class RandomWidthHeight(Resource):
     def get(self, width, height):
         res = model.get_random_image()
         if res:
-            res = dict(res)
-            res.update({"width": width, "height": height})
-            return res
+            return dict(res)
         raise BadRequest()
 
 

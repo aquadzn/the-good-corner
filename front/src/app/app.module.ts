@@ -12,9 +12,11 @@ import { ImageComponent } from './image/image.component';
 import { ImagesPageComponent } from './images-page/images-page.component';
 import { ImageModalComponent } from './image-modal/image-modal.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ApiPageComponent } from './api-page/api-page.component';
+import { ApiPageComponent } from './api/api-page/api-page.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { UploadPageComponent } from './upload-page/upload-page.component';
+import { ApiImageSizeComponent } from './api/api-image-size/api-image-size.component';
+import { ApiImageWidthHeightComponent } from './api/api-image-width-height/api-image-width-height.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { UploadPageComponent } from './upload-page/upload-page.component';
     ApiPageComponent,
     SearchResultsComponent,
     UploadPageComponent,
+    ApiImageSizeComponent,
+    ApiImageWidthHeightComponent,
   ],
   imports: [
     BrowserModule,

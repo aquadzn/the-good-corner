@@ -89,6 +89,35 @@ export class ImageService {
     return img;
   }
 
+  public getRandomImageSize(size: string | null) {
+    var img: Image = new Image('', '', '', '', '', NaN, NaN, NaN, '', '', '');
+
+    this.http
+      .get<any>(`http://localhost:5000/images/random/${size}`)
+      .subscribe((data) => {
+        img.photo_id = data.photo_id;
+        img.photo_image_url = data.photo_image_url;
+      });
+
+    return img;
+  }
+
+  public getRandomImageWidthHeight(
+    width: string | null,
+    height: string | null
+  ) {
+    var img: Image = new Image('', '', '', '', '', NaN, NaN, NaN, '', '', '');
+
+    this.http
+      .get<any>(`http://localhost:5000/images/random/${width}/${height}`)
+      .subscribe((data) => {
+        img.photo_id = data.photo_id;
+        img.photo_image_url = data.photo_image_url;
+      });
+
+    return img;
+  }
+
   public getImagesByKeyword(keyword: string | null, color: string): Image[] {
     var images: Image[] = [];
 
