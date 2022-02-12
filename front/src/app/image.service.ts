@@ -41,7 +41,7 @@ export class ImageService {
 
     this.http
       .get<any>(
-        `http://localhost:5000/images/gallery?offset=${offset}&limit=${limit}`
+        `https://the-good-corner-backend.herokuapp.com/images/gallery?offset=${offset}&limit=${limit}`
       )
       .subscribe((data) => {
         for (let element of data) {
@@ -123,7 +123,7 @@ export class ImageService {
       payload[key] = value;
     });
 
-    return this.http.post<any>('http://localhost:5000/images/upload', payload, {
+    return this.http.post<any>('https://the-good-corner-backend.herokuapp.com/images/upload', payload, {
       headers: { 'Content-Type': 'application/json' },
     });
   }
