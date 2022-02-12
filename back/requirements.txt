@@ -4,3 +4,4 @@ flask-restx
 flask-cors
 pandas
 gunicorn
+cloudinary

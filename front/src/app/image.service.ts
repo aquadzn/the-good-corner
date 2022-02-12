@@ -36,6 +36,36 @@ export class ImageService {
     return images;
   }
 
+  public getGalleryImages(offset: number = 0, limit: number = 6): Image[] {
+    var images: Image[] = [];
+
+    this.http
+      .get<any>(
+        `http://localhost:5000/images/gallery?offset=${offset}&limit=${limit}`
+      )
+      .subscribe((data) => {
+        for (let element of data) {
+          images.push(
+            new Image(
+              element.photo_id,
+              element.photographer_name,
+              element.filename,
+              element.photo_image_url,
+              element.exif_camera_model,
+              element.photo_width,
+              element.photo_height,
+              element.photo_aspect_ratio,
+              element.photo_description,
+              element.keyword,
+              element.colors
+            )
+          );
+        }
+      });
+
+    return images;
+  }
+
   public getImageById(id: string) {
     var img: Image = new Image('', '', '', '', '', NaN, NaN, NaN, '', '', '');
 
@@ -59,11 +89,11 @@ export class ImageService {
     return img;
   }
 
-  public getImagesByKeyword(keyword: string | null): Image[] {
+  public getImagesByKeyword(keyword: string | null, color: string): Image[] {
     var images: Image[] = [];
 
     this.http
-      .get<any>(`https://the-good-corner-backend.herokuapp.com/images/search/${keyword}`)
+      .get<any>(`https://the-good-corner-backend.herokuapp.com/images/search/${keyword}?color=${color}`)
       .subscribe((data) => {
         for (let element of data) {
           images.push(
@@ -85,5 +115,16 @@ export class ImageService {
       });
 
     return images;
+  }
+
+  public uploadImage(formData: FormData) {
+    var payload = Object();
+    formData.forEach((value: any, key: any) => {
+      payload[key] = value;
+    });
+
+    return this.http.post<any>('http://localhost:5000/images/upload', payload, {
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }
