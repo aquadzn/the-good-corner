@@ -59,7 +59,7 @@ class Model:
     def get_random_image(self):
         conn = self.__get_db(True)
         cur = conn.cursor()
-        cur.execute("select photo_id, filename from images order by random() limit 1")
+        cur.execute("select photo_id, photo_image_url from images order by random() limit 1")
         res = cur.fetchone()
         cur.close()
         conn.close()
