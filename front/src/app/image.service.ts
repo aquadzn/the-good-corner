@@ -93,7 +93,7 @@ export class ImageService {
     var img: Image = new Image('', '', '', '', '', NaN, NaN, NaN, '', '', '');
 
     this.http
-      .get<any>(`http://localhost:5000/images/random/${size}`)
+      .get<any>(`https://the-good-corner-backend.herokuapp.com/images/random/${size}`)
       .subscribe((data) => {
         img.photo_id = data.photo_id;
         img.photo_image_url = data.photo_image_url;
@@ -109,7 +109,7 @@ export class ImageService {
     var img: Image = new Image('', '', '', '', '', NaN, NaN, NaN, '', '', '');
 
     this.http
-      .get<any>(`http://localhost:5000/images/random/${width}/${height}`)
+      .get<any>(`https://the-good-corner-backend.herokuapp.com/images/random/${width}/${height}`)
       .subscribe((data) => {
         img.photo_id = data.photo_id;
         img.photo_image_url = data.photo_image_url;
