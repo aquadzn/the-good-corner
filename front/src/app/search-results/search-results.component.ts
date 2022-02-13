@@ -14,6 +14,10 @@ export class SearchResultsComponent implements OnInit {
   color!: string | null;
   images!: Image[];
 
+  offset: number = 0;
+  limit: number = 6;
+  page: number = 1;
+
   constructor(
     private route: ActivatedRoute,
     private imageService: ImageService
@@ -38,6 +42,38 @@ export class SearchResultsComponent implements OnInit {
       this.images = this.imageService.getImagesByKeyword(
         this.keyword,
         this.color
+      );
+    });
+  }
+
+  showMore() {
+    this.offset += 6;
+    this.page += 1;
+
+    this.route.paramMap.subscribe((params) => {
+      this.keyword = params.get('keyword');
+      this.color = params.get('color') ?? '';
+      this.images = this.imageService.getImagesByKeyword(
+        this.keyword,
+        this.color,
+        this.offset,
+        this.limit
+      );
+    });
+  }
+
+  showLess() {
+    this.offset -= 6;
+    this.page -= 1;
+
+    this.route.paramMap.subscribe((params) => {
+      this.keyword = params.get('keyword');
+      this.color = params.get('color') ?? '';
+      this.images = this.imageService.getImagesByKeyword(
+        this.keyword,
+        this.color,
+        this.offset,
+        this.limit
       );
     });
   }

@@ -1,6 +1,19 @@
 <app-navbar></app-navbar>
 
-<div class="mt-16 container mx-auto">
+<div class="mt-8 container mx-auto">
+    <div class="mb-8 flex justify-center items-center space-x-8">
+        <button *ngIf="offset > 0" (click)="showLess()"
+            class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&lt;</button>
+        <p class="text-sm font-semibold uppercase text-gray-600">Page {{ page }}</p>
+        <button (click)="showMore()"
+            class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&gt;</button>
+    </div>
     <app-image-grid [images]="images"></app-image-grid>
-    <button (click)="showMore()" class="bg-black text-white px-4 py-2 rounded">VOIR PLUS</button>
+    <div class="mt-8 flex justify-center items-center space-x-8">
+        <button *ngIf="offset > 0" (click)="showLess()"
+            class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&lt;</button>
+        <p class="text-sm font-semibold uppercase text-gray-600">Page {{ page }}</p>
+        <button (click)="showMore()"
+            class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&gt;</button>
+    </div>
 </div>

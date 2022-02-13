@@ -118,11 +118,18 @@ export class ImageService {
     return img;
   }
 
-  public getImagesByKeyword(keyword: string | null, color: string): Image[] {
+  public getImagesByKeyword(
+    keyword: string | null,
+    color: string,
+    offset: number = 0,
+    limit: number = 6
+  ): Image[] {
     var images: Image[] = [];
 
     this.http
-      .get<any>(`http://localhost:5000/images/search/${keyword}?color=${color}`)
+      .get<any>(
+        `http://localhost:5000/images/search/${keyword}?offset=${offset}&limit=${limit}&color=${color}`
+      )
       .subscribe((data) => {
         for (let element of data) {
           images.push(
