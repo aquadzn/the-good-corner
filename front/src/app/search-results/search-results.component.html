@@ -3,11 +3,26 @@
     <h1 class="text-4xl font-bold">{{ keyword }}</h1>
     <div *ngIf="images.length > 0; else noResults">
         <div class="py-4 flex justify-start items-center space-x-8 overflow-x-scroll overflow-y-hidden scroll-smooth">
-            <a *ngFor="let color of colors | keyvalue" routerLink="/search/{{ keyword }}/{{ color.value }}" routerLinkActive="border-gray-900 text-gray-900"
+            <a *ngFor="let color of colors | keyvalue" routerLink="/search/{{ keyword }}/{{ color.value }}"
+                routerLinkActive="border-gray-900 text-gray-900"
                 class="px-8 py-2 border rounded text-gray-600 transition transform ease-in hover:border-gray-900 hover:text-gray-900">{{
                 color.key }}</a>
         </div>
+        <div class="mb-8 flex justify-center items-center space-x-8">
+            <button *ngIf="offset > 0" (click)="showLess()"
+                class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&lt;</button>
+            <p class="text-sm font-semibold uppercase text-gray-600">Page {{ page }}</p>
+            <button (click)="showMore()"
+                class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&gt;</button>
+        </div>
         <app-image-grid [images]="images"></app-image-grid>
+        <div class="mt-8 flex justify-center items-center space-x-8">
+            <button *ngIf="offset > 0" (click)="showLess()"
+                class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&lt;</button>
+            <p class="text-sm font-semibold uppercase text-gray-600">Page {{ page }}</p>
+            <button (click)="showMore()"
+                class="flex-initial bg-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full hover:bg-gray-300 hover:text-gray-700">&gt;</button>
+        </div>
     </div>
     <ng-template #noResults>
         <p class="text-xl text-center">Aucun résultats trouvés 😥</p>

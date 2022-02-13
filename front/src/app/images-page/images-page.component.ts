@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../image.service';
 import { Image } from '../models/image.model';
 
@@ -7,16 +7,13 @@ import { Image } from '../models/image.model';
   templateUrl: './images-page.component.html',
   styleUrls: ['./images-page.component.css'],
 })
-export class ImagesPageComponent implements OnInit, OnDestroy {
+export class ImagesPageComponent implements OnInit {
   images!: Image[];
   offset: number = 0;
   limit: number = 6;
+  page: number = 1;
 
   constructor(private imageService: ImageService) {}
-  ngOnDestroy(): void {
-    this.offset = 0;
-    this.limit = 6;
-  }
 
   ngOnInit(): void {
     // A CHANGER
@@ -25,14 +22,15 @@ export class ImagesPageComponent implements OnInit, OnDestroy {
 
   showMore() {
     this.offset += 6;
-    this.limit += 6;
-    console.log(this.offset);
-    console.log(this.limit);
+    this.page += 1;
 
-    this.imageService
-      .getGalleryImages(this.offset, this.limit)
-      .forEach((new_img) => {
-        this.images.push(new_img);
-      });
+    this.images = this.imageService.getGalleryImages(this.offset, this.limit);
+  }
+
+  showLess() {
+    this.offset -= 6;
+    this.page -= 1;
+
+    this.images = this.imageService.getGalleryImages(this.offset, this.limit);
   }
 }
