@@ -17,6 +17,8 @@ import { SearchResultsComponent } from './search-results/search-results.componen
 import { UploadPageComponent } from './upload-page/upload-page.component';
 import { ApiImageSizeComponent } from './api/api-image-size/api-image-size.component';
 import { ApiImageWidthHeightComponent } from './api/api-image-width-height/api-image-width-height.component';
+import { LoginFormDialogComponent } from './login-form-dialog/login-form-dialog.component';
+import {AuthenticationServiceService} from "./authentication-service.service";
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { ApiImageWidthHeightComponent } from './api/api-image-width-height/api-i
     UploadPageComponent,
     ApiImageSizeComponent,
     ApiImageWidthHeightComponent,
+    LoginFormDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,7 @@ import { ApiImageWidthHeightComponent } from './api/api-image-width-height/api-i
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [AuthenticationServiceService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

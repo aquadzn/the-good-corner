@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
       Validators.pattern('^[a-zA-Z ]*$'),
     ]),
   });
-
+  showLoginModal = false;
   constructor(private router: Router) {}
 
   submit() {
@@ -25,4 +25,6 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+
 }
