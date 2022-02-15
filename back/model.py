@@ -12,6 +12,36 @@ class Model:
             conn.row_factory = sqlite3.Row
         return conn
 
+    # Auth
+    # ----
+
+    def check_username(self, username):
+        conn = self.__get_db(True)
+        cur = conn.cursor()
+        cur.execute("select * from users where username = ? ", (username,))
+        res = cur.fetchone()
+        cur.close()
+        conn.close()
+
+        return res
+
+    def create_user(self, username, password):
+        conn = self.__get_db()
+        cur = conn.cursor()
+        cur.execute(
+            "insert into users (username, password) values (?,?)",
+            (
+                username,
+                password,
+            ),
+        )
+        conn.commit()
+        cur.close()
+        conn.close()
+
+    # Images
+    # ------
+
     def get_homepage_images(self):
         conn = self.__get_db(True)
         cur = conn.cursor()
@@ -59,7 +89,9 @@ class Model:
     def get_random_image(self):
         conn = self.__get_db(True)
         cur = conn.cursor()
-        cur.execute("select photo_id, photo_image_url from images order by random() limit 1")
+        cur.execute(
+            "select photo_id, photo_image_url from images order by random() limit 1"
+        )
         res = cur.fetchone()
         cur.close()
         conn.close()

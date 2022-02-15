@@ -1,10 +1,14 @@
 from uuid import uuid4
+from hashlib import sha256
 
-from flask import Flask, request
+from flask import Flask, jsonify
+from werkzeug.exceptions import BadRequest
 from flask_cors import cross_origin
 from flask_restx import Api, Resource
-from werkzeug.exceptions import BadRequest
-from werkzeug.datastructures import FileStorage
+from flask_jwt_extended import JWTManager
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import create_access_token
 import cloudinary
 
 import config
@@ -18,9 +22,63 @@ cloudinary.config(
 )
 
 app = Flask(__name__)
+# Setup the Flask-JWT-Extended extension
+app.config["JWT_SECRET_KEY"] = "super-secret"
+jwt = JWTManager(app)
+
 api = Api(app)
 model = Model(config.DB_NAME)
 
+
+# Authentication API
+# ------------------
+
+auth = api.namespace(
+    "auth", description="The Good Corner authentication", decorators=[cross_origin()]
+)
+
+auth_parser = auth.parser()
+auth_parser.add_argument("username", type=str, required=True)
+auth_parser.add_argument("password", type=str, required=True)
+
+
+@auth.route("/login")
+@auth.expect(auth_parser)
+class Login(Resource):
+    def post(self):
+        args = auth_parser.parse_args()
+        username = args["username"]
+        password = args["password"]
+
+        res = model.check_username(username)
+        if res:
+            hash_password = sha256(password.encode("utf-8")).hexdigest()
+            if hash_password == res["password"]:
+                access_token = create_access_token(identity=username)
+                return jsonify(access_token=access_token)
+
+        raise BadRequest("Bad username or password")
+
+
+@auth.route("/signup")
+@auth.expect(auth_parser)
+class SignUp(Resource):
+    def post(self):
+        args = auth_parser.parse_args()
+        username = args["username"]
+        password = args["password"]
+
+        res = model.check_username(username)
+        if res:
+            raise BadRequest()
+        else:
+            model.create_user(username, sha256(password.encode("utf-8")).hexdigest())
+
+        return "User created", 200
+
+
+# Images API
+# ----------
 
 ns = api.namespace(
     "images", description="The Good Corner images", decorators=[cross_origin()]
@@ -42,6 +100,16 @@ upload_parser.add_argument(
 upload_parser.add_argument("keyword", type=str, location="json")
 upload_parser.add_argument("exif_camera_model", type=str, location="json")
 upload_parser.add_argument("colors", type=str, location="json")
+
+
+@ns.route("/protected")
+class Protected(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+        resp = jsonify(logged_in_as=current_user)
+        resp.status_code = 200
+        return resp
 
 
 @ns.route("/homepage")
