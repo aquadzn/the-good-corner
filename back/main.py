@@ -54,7 +54,7 @@ class Login(Resource):
         if res:
             hash_password = sha256(password.encode("utf-8")).hexdigest()
             if hash_password == res["password"]:
-                access_token = create_access_token(identity=username)
+                access_token = create_access_token(identity=username, expires_delta=False)
                 return jsonify(access_token=access_token)
 
         raise BadRequest("Bad username or password")
